@@ -1,0 +1,97 @@
+﻿@model IEnumerable<WebApplication1.Models.Contacto>
+
+@{
+    ViewData["Title"] = "Lista de Contactos";
+}
+
+<h1 class="text-center">Contactos</h1>
+
+<div class="row">
+    <div class="offset-9 col-3 mb-3">
+        <a asp-action="Crear" asp-controller="Inicio" class="btn btn-secondary d-block mx-auto btn-lg">
+            <i class="bi bi-file-plus"></i> Nuevo Usuario
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border">
+            <div class="card-header bg-dark">
+                <h3 class="text-white"> <strong>Lista de Contactos</strong></h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.Any())
+                    {
+                        <table class="table table-bordered" id="tbUsuarios" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Id)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Nombre)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Telefono)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Celular)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Email)</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.Telefono</td>
+                                        <td>@item.Celular</td>
+                                        <td>@item.Email</td>
+                                        <td>
+                                            <a class="btn btn-warning" asp-action="Editar" asp-route-id="@item.Id"> <i class="bi bi-pencil"></i> Editar</a>
+                                            <a class="btn btn-secondary" asp-action="Detalle" asp-route-id="@item.Id"> <i class="bi bi-info-circle"></i> Detalle</a>
+                                            <a class="btn btn-danger" asp-action="Borrar" asp-route-id="@item.Id"> <i class="bi bi-trash"></i> Borrar</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No hay registros disponibles.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tbUsuarios').DataTable({
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                    "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar",
+                    "zeroRecords": "No se encontraron resultados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+    </script>
+}
+
+
