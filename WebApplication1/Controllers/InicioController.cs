@@ -45,9 +45,7 @@ namespace WebApplication1.Controllers
             return View(contacto); // Reenvía el modelo con los errores al formulario
         }
 
-
-        //Accion para Editar un Contacto
-
+        // Acción GET para mostrar el formulario de edición de contacto
         [HttpGet]
         public IActionResult Editar(int? id)
         {
@@ -56,13 +54,14 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
             var contacto = _contexto.Contactos.Find(id);
-            if(contacto ==null)
+            if (contacto == null)
             {
                 return NotFound();
             }
             return View(contacto);
         }
 
+        // Acción POST para manejar la edición de un contacto
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Editar(Contacto contacto)
@@ -76,6 +75,52 @@ namespace WebApplication1.Controllers
             return View(contacto); // Reenvía el modelo con los errores al formulario
         }
 
+        // Acción GET para mostrar los detalles de un contacto
+        [HttpGet]
+        public IActionResult Detalle(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var contacto = _contexto.Contactos.Find(id);
+            if (contacto == null)
+            {
+                return NotFound();
+            }
+            return View(contacto);
+        }
+
+        // Acción GET para mostrar el formulario de confirmación de eliminación
+        [HttpGet]
+        public IActionResult Borrar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var contacto = _contexto.Contactos.Find(id);
+            if (contacto == null)
+            {
+                return NotFound();
+            }
+            return View(contacto);
+        }
+
+        // Acción POST para manejar la eliminación de un contacto
+        [HttpPost, ActionName("Borrar")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BorrarConfirmado(int id)
+        {
+            var contacto = await _contexto.Contactos.FindAsync(id);
+            if (contacto == null)
+            {
+                return NotFound();
+            }
+            _contexto.Contactos.Remove(contacto);
+            await _contexto.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         // Acción GET para mostrar la página de privacidad
         public IActionResult Privacy()
@@ -91,4 +136,3 @@ namespace WebApplication1.Controllers
         }
     }
 }
-
